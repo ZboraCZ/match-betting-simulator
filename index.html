@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+    <style>
+      label > span {
+        font-size: 30px;
+      }
+
+      .input-fnc-content, .transition-fnc-content {
+        display: none;
+      }
+
+      .input-fnc-content .mx-auto{ 
+        text-align: center;
+       
+      }
+      
+      .input-fnc-content .kurz-tymy {
+        font-size: 40px;
+      }
+
+      .input-fnc-content .kurz-hodnoty {
+        font-size: 30px;
+        font-weight: bold;
+      }
+
+      .form-select { 
+        width: 150px;
+      }
+
+      .error-message {
+        display: none;
+      }
+
+      .is-visible {
+        display: block;
+      }
+    </style>
+    
+    
+    <title>Document</title>
+</head>
+<body>
+
+
+    <div class="container">
+
+        <h2>Délka zápasu: 60min (3x20min)</h2>
+        <h4>Aktuální kolo ligy <span id="aktualniKoloText"></span></h4>
+        <input type="range" class="form-range" min="1" max="52" step="1" id="aktualniKoloEl">
+        
+        <div class="row">
+          <div class="col">
+
+            <h1>Tým 1</h1>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon3">Název</span>
+                <input type="text" class="form-control" id="tym1Input" aria-describedby="basic-addon3">
+            </div>
+
+            <label for="customRange3" class="form-label">Pořadí v tabulce <span id="tym1poradiText"></span></label>
+            <input type="range" class="form-range" min="1" max="14" step="1" id="tym1PoradiVTymu">
+
+            <label for="customRange3" class="form-label">Gólová úspěšnost <span id="tym1GolyText"></span></label>
+            <input type="range" class="form-range" min="0" max="1" step="0.1" id="tym1GolovaUspesnost">
+
+            <label for="customRange3" class="form-label">Výhry v řadě <span id="tym1VyhryText"></span></label>
+            <input type="range" class="form-range" min="-5" max="5" step="1" id="tym1VyhryVRade">
+
+            <label for="customRange3" class="form-label">Nemocné v týmu <span id="tym1NemocniText"></span></label>
+            <input type="range" class="form-range" min="0" max="20" step="1" id="tym1NemocneVTymu">
+
+          </div>
+          <div class="col">
+            <h1>Tým 2</h1>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon3">Název</span>
+                <input type="text" class="form-control" id="tym2Input" aria-describedby="basic-addon3">
+            </div>
+
+            <label for="customRange3" class="form-label">Pořadí v tabulce <span id="tym2poradiText"></span></label>
+            <input type="range" class="form-range" min="1" max="14" step="1" id="tym2PoradiVTymu">
+
+            <label for="customRange3" class="form-label">Gólová úspěšnost <span id="tym2GolyText"></span></label>
+            <input type="range" class="form-range" min="0" max="1" step="0.1"  id="tym2GolovaUspesnost">
+
+            <label for="customRange3" class="form-label">Výhry v řadě <span id="tym2VyhryText"></span></label>
+            <input type="range" class="form-range" min="-5" max="5" step="1" id="tym2VyhryVRade">
+
+            <label for="customRange3" class="form-label">Nemocné v týmu <span id="tym2NemocniText"></span></label>
+            <input type="range" class="form-range" min="0" max="20" step="1" id="tym2NemocneVTymu">
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="kdeSeHraje">Kde se hraje</label>
+            <select class="form-select" size="2" name="kdeSeHraje" id="kdeSeHraje">
+              <option value="1">Tým 1</option>
+              <option value="2">Tým 2</option>
+            </select>
+        </div>
+        <button type="button" class="btn btn-primary" id="calcInputFnc">Vypočítej vstupní funkci</button>
+        
+
+          <div class="alert alert-danger error-message" role="alert" id="errorMessage"> </div>
+
+        <div class="input-fnc-content">
+          <h3>Vypočítané kurzy:</h3>
+            <div class="mx-auto" style="width: 100%;">
+              <div class='kurz-tymy'>
+                <span id="tym1Nazev"></span> : <span id="tym2Nazev"></span>
+              </div>
+              <div class='kurz-hodnoty'>
+                <span id="kurz1"></span> : <span id='kurz2'></span>
+              </div>
+            </div>
+        </div>
+
+
+        <div class='transition-fnc-content'>
+          <h3>Průběh zápasu</h3>
+
+          <div class="row">
+            <div class="col">
+              <h2>Manualní průběh zápasu</h2>
+              <label for="customRange3" class="form-label">Zvolená časová osa zápasu <span id="currentTimeText"></span>. minuta</label>
+              <input type="range" class="form-range" min="1" max="60" step="1" id="currentTimeEl">
+          
+          
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="tym1Radio">
+                <label class="form-check-label" for="flexRadioDefault1">
+                  <span id='tym1RadioText'></span>
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="tym2Radio" checked>
+                <label class="form-check-label" for="flexRadioDefault2">
+                  <span id='tym2RadioText'></span>
+                </label>
+                <br />
+                <button type="button" class="btn btn-primary" id='addGoal'>Přidej gól</button>
+              </div>
+            </div>
+
+            <div class="col">
+              <h2>Teoretický průběh zápasu</h2>
+              <div id='prubehZapasu'></div>
+            </div>
+          </div>
+
+
+        <div style='width: 600px; margin-bottom:150px;'>
+          <canvas id='myChart'></canvas>
+        </div>
+    
+      </div>
+
+
+</body>
+    <script type='text/javascript' src='ui.js'></script>
+    <script type='text/javascript' src='system.js'></script>
+    <script type='text/javascript' src='main.js'></script>
+</html>
